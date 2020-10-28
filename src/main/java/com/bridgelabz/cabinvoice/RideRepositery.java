@@ -3,24 +3,37 @@ package com.bridgelabz.cabinvoice;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
-public class RideRepositery {	
-	HashMap<String,ArrayList<Ride>> userRides=null;
+public class RideRepositery {
+	public static HashMap<String, List<Ride>> userRides;
 
 	public RideRepositery() {
-		this.userRides = userRides;
+		this.userRides = new HashMap<String, List<Ride>>();
 	}
 
-	public void addRides(String userId, Ride[] rides) {
-		ArrayList<Ride> rideList=this.userRides.get(userId);
-		if(rideList==null) {
-			this.userRides.put(userId,new ArrayList<Ride>(Arrays.asList(rides)));
+	public void addRides(String userID, List<Ride> rides) {
+		try {
+			if (userID == null || rides == null) {
+				throw new NullPointerException("Null value not allowed");
+			}
+			if (userRides.containsKey(userID)) {
+				System.out.println("if");
+				for (Ride rides1 : rides) {
+					userRides.get(userID).add(rides1);
+
+				}
+
+			} else {
+				userRides.put(userID, rides);
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
-		
 	}
 
-	public Ride[] getRides(String userId) {
-		return this.userRides.get(userId).toArray(new Ride[0]);
+	public List<Ride> getRides(String userId) {
+		return this.userRides.get(userId);
 	}
-	
+
 }
